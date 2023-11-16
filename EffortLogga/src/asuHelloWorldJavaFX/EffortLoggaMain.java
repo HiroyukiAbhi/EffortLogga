@@ -15,19 +15,8 @@ public class EffortLoggaMain extends Application {
     }
     
     public void start(Stage primaryStage) {
-    	System.out.println("ASU Hello World!");
-    	System.out.println("It started!");
-        primaryStage.setTitle("Hello World1");
-        Button btn = new Button();
-        btn.setText("Display: 'ASU says: 2Hello World!'");
-        btn.setOnAction(new EventHandler<>() {
-            public void handle(ActionEvent event) {
-                System.out.println("ASU: Hello World!");
-            }
-        });
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
     }
