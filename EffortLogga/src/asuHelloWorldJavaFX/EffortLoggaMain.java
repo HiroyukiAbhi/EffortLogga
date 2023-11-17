@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ public class EffortLoggaMain extends Application {
 		try {
 			root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene scene = new Scene(root, 520, 400);
+			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
