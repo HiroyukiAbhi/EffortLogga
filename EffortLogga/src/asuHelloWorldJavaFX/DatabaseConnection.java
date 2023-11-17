@@ -8,10 +8,10 @@ public class DatabaseConnection {
 	
 	
 	public Connection getConnection() {
-		String dbName = "mydb";
-		String username = "root";
-		String dbpassword = "password";
-		String url = "jdbc:mysql://localhost/" + dbName;
+		String dbName = "mydb"; //Enter DATABASE NAME
+		String username = "avnadmin"; //Enter username
+		String dbpassword = "AVNS_Wqz6DbTKBRHQncwW46s";
+		String url = "jdbc:mysql://mysql-effortlogger-intelligence2003-8456.a.aivencloud.com:14581/effortloggeruseraccounts?ssl-mode=REQUIRED";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

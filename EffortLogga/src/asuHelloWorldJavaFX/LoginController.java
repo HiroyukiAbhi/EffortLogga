@@ -46,7 +46,7 @@ public class LoginController {
 		DatabaseConnection connection = new DatabaseConnection();
 		Connection connector = connection.getConnection();
 		
-		String loginQuery = "SELECT count(1) FROM useraccounts WHERE username = '"+ UsernameTextInput.getText() + "' AND password = '" + PasswordTextInput.getText() +"'";
+		String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ UsernameTextInput.getText() + "' AND password = '" + PasswordTextInput.getText() +"'";
 		try {
 			Statement x = connector.createStatement();
 			ResultSet fetchResult = x.executeQuery(loginQuery);
