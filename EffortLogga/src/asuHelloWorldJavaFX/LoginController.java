@@ -1,5 +1,5 @@
 package asuHelloWorldJavaFX;
-
+//FUNCTIONALITY FOR LOGIN PAGE
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
@@ -56,6 +56,8 @@ public class LoginController {
 		            if (fetchResult.getInt(1) == 1) {
 		                SystemMessage.setText("WELL DONE!");
 		                SystemMessage.setOpacity(1);
+		                
+		                int role = getRole();
 		            } else {
 		                SystemMessage.setText("WRONG!");
 		                SystemMessage.setOpacity(1);
@@ -66,6 +68,10 @@ public class LoginController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private int getRole() {
+		String roleQuery = "";
+		return 0;
 	}
 	
 	
