@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" scaleShape="false" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="223.0" style="-fx-background-color: #282828;">
          <children>
@@ -57,7 +57,7 @@
             </Label>
             <TextField fx:id="UsernameTextInput" layoutX="115.0" layoutY="104.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Username" snapToPixel="false" />
             <TextField fx:id="PasswordTextInput" layoutX="115.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Password" />
-            <Button fx:id="LoginButtonID" layoutX="19.0" layoutY="233.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Login" textFill="WHITE">
+            <Button fx:id="LoginButton" layoutX="19.0" layoutY="233.0" mnemonicParsing="false" onAction="#LogInButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Verdana" size="16.0" />
                </font>
@@ -67,7 +67,7 @@
                   <Font name="Verdana" size="16.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutY="192.0" opacity="0.0" prefHeight="17.0" prefWidth="291.0" text="System Message" textFill="#e86d6d">
+            <Label fx:id="SystemMessage" alignment="CENTER" layoutY="192.0" opacity="0.0" prefHeight="17.0" prefWidth="291.0" text="System Message" textFill="#e86d6d">
                <font>
                   <Font name="Verdana Bold" size="11.0" />
                </font>
