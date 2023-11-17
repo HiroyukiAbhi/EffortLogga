@@ -28,7 +28,7 @@
             <Line endX="100.0" layoutX="114.0" layoutY="77.0" startX="-100.0" stroke="#656565" />
             <ImageView disable="true" fitHeight="122.0" fitWidth="228.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                <image>
-                  <Image url="file:/C:/Users/intel/git/EffortLogga/EffortLogga/src/asuHelloWorldJavaFX/code.png" />
+                  <Image url="@code.png" />
                </image>
                <effect>
                   <Reflection />
