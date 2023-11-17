@@ -1,6 +1,12 @@
 package asuHelloWorldJavaFX;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,10 +20,18 @@ public class EffortLoggaMain extends Application {
         launch(args);
     }
     
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
         
-        StackPane root = new StackPane();
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+    	Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+			Scene scene = new Scene(root, 520, 400);
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			//Just incase that Login-FXML cant be located
+			e.printStackTrace();
+		}
+		
     }
 }
