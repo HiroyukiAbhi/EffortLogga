@@ -12,6 +12,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/knuck/OneDrive/Documents/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar"/>
+	<!--EDIT CLASS PATH RELATIVE TO THE USER-->
+	<classpathentry kind="lib" path="C:/Users/intel/Downloads/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
