@@ -8,7 +8,7 @@ public class DatabaseConnection {
 	
 	
 	public Connection getConnection() {
-		String dbName = "mydb"; //Enter DATABASE NAME
+		//String dbName = "mydb"; //Enter DATABASE NAME
 		String username = "avnadmin"; //Enter username
 		String dbpassword = "AVNS_Wqz6DbTKBRHQncwW46s";
 		String url = "jdbc:mysql://mysql-effortlogger-intelligence2003-8456.a.aivencloud.com:14581/effortloggeruseraccounts?ssl-mode=REQUIRED";

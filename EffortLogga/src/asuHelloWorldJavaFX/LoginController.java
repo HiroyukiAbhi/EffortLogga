@@ -1,6 +1,6 @@
 package asuHelloWorldJavaFX;
 //FUNCTIONALITY FOR LOGIN PAGE
-import javafx.application.Application;
+
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.fxml.*;
@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.lang.String;
 
 
 
@@ -80,12 +81,12 @@ public class LoginController {
 		DatabaseConnection connection = new DatabaseConnection();
 		Connection connector = connection.getConnection();
 		
-		String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ UsernameTextInput.getText() + "' AND password = '" + PasswordTextInput.getText() +"'";
+		String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ UsernameTextInput.getText() + "' AND password = '" + Encryption.hashPassword(PasswordTextInput.getText()) +"'";
 		try {
 			Statement x = connector.createStatement();
 			ResultSet fetchResult = x.executeQuery(loginQuery);
 			
-			 while(fetchResult.next()) {
+			while(fetchResult.next()) {
 		            if (fetchResult.getInt(1) == 1) {
 		                SystemMessage.setOpacity(1);
 		                String roleQuery = "SELECT roleSpecification FROM userAccounts WHERE username = '" + UsernameTextInput.getText() + "'";
@@ -94,12 +95,10 @@ public class LoginController {
 		                while(fetchResult.next()) {
 		                	if(fetchResult.getInt(1) == 1) {
 		                		SystemMessage.setText("Supervisor!");
-		                		
-		                	}else {
+		                	} else {
 		                		SystemMessage.setText("Employee!");
 		                	}
-		                }
-		                
+		                }    
 		            } else {
 		                SystemMessage.setText("WRONG!");
 		                SystemMessage.setOpacity(1);
@@ -117,8 +116,5 @@ public class LoginController {
 		}
 		
 	}
-
-	
-	
 
 }
