@@ -55,6 +55,8 @@ public class SignUpController {
 	            	if(rowsAffected > 0) {
 	            	SignUpMessage.setText("User Created!");
 	            	SignUpMessage.setOpacity(1);
+	            	preparedStatement.close();
+	            	fetchResult.close();
 	            	}
 	            }
 		 }
