@@ -64,7 +64,7 @@ public class LoginController {
 		//Static desgin of creating a signup window
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));	
-			root = loader.load();	
+			root = loader.load();
 			stage = (Stage)((Node) e.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
@@ -76,6 +76,7 @@ public class LoginController {
 	
 	
 	public void checkCredentials() {
+		try {
 		DatabaseConnection connection = new DatabaseConnection();
 		Connection connector = connection.getConnection();
 		
@@ -104,11 +105,17 @@ public class LoginController {
 		                SystemMessage.setOpacity(1);
 		            }
 			 }
-			 connector.close();
-		            
+			 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		connector.close();
+        
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	

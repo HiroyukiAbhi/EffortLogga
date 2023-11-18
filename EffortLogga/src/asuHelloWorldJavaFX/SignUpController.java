@@ -1,19 +1,27 @@
 package asuHelloWorldJavaFX;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 public class SignUpController {
 	private Stage stage;
 	private Scene scene;
 	public Parent root;
 	
 	
+	@FXML
+	Label SignUpMessage;
 	@FXML
 	TextField SignUpUsernameText;
 	@FXML
@@ -22,8 +30,39 @@ public class SignUpController {
 	Button SignUpButton;
 	@FXML
 	Button SignUpBackButton;
+	
 	@FXML
-	private void SignUpButtonPressed(ActionEvent e) {
+	private void SignUpButtonisPressed(ActionEvent e) {
+		
+		try {
+			DatabaseConnection connection = new DatabaseConnection();
+			Connection connector = connection.getConnection();
+			String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ SignUpUsernameText.getText() + "' AND password = '" + SignUpPasswordText.getText() +"'";
+			Statement x = connector.createStatement();
+			ResultSet fetchResult = x.executeQuery(loginQuery);
+			while(fetchResult.next()) {
+	            if (fetchResult.getInt(1) == 1) {
+	            	SignUpMessage.setText("User Already Exists!");
+	            	SignUpMessage.setOpacity(1);
+	            	
+	                
+	            } else {
+	            	String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('" + SignUpUsernameText.getText() + "', '" + SignUpPasswordText.getText() + "', 0);";
+	            	
+	            	PreparedStatement preparedStatement = connector.prepareStatement(insert);
+	            	//fetchResult = x.executeQuery(insert);
+	            	int rowsAffected = preparedStatement.executeUpdate();
+	            	if(rowsAffected > 0) {
+	            	SignUpMessage.setText("User Created!");
+	            	SignUpMessage.setOpacity(1);
+	            	}
+	            }
+		 }
+			connector.close();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+			
+		}
 		
 	
 	}
