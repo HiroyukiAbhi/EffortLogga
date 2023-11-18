@@ -37,7 +37,7 @@ public class SignUpController {
 		try {
 			DatabaseConnection connection = new DatabaseConnection();
 			Connection connector = connection.getConnection();
-			String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ SignUpUsernameText.getText() + "' AND password = '" + SignUpPasswordText.getText() +"'";
+			String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ SignUpUsernameText.getText() + "' AND password = '" + Encryption.hashPassword(SignUpPasswordText.getText()) +"'";
 			Statement x = connector.createStatement();
 			ResultSet fetchResult = x.executeQuery(loginQuery);
 			while(fetchResult.next()) {
@@ -47,7 +47,7 @@ public class SignUpController {
 	            	
 	                
 	            } else {
-	            	String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('" + SignUpUsernameText.getText() + "', '" + SignUpPasswordText.getText() + "', 0);";
+	            	String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('" + SignUpUsernameText.getText() + "', '" + Encryption.hashPassword(SignUpPasswordText.getText()) + "', 0);";
 	            	
 	            	PreparedStatement preparedStatement = connector.prepareStatement(insert);
 	            	//fetchResult = x.executeQuery(insert);

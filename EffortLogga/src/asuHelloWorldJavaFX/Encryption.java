@@ -23,9 +23,7 @@ public class Encryption {
 				}
 				hexString.append(hex);
 			}
-			// inputs hashed password as data value in to storeHashedPasswordToFile function
-			//storeHashedPasswordToFile("credentials.txt", userId, password, hexString.toString());
-			
+			System.out.println(hexString.toString());
 			// returns hashed password
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {

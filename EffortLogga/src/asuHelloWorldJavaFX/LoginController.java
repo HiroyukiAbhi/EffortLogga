@@ -82,6 +82,7 @@ public class LoginController {
 		Connection connector = connection.getConnection();
 		
 		String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ UsernameTextInput.getText() + "' AND password = '" + Encryption.hashPassword(PasswordTextInput.getText()) +"'";
+		
 		try {
 			Statement x = connector.createStatement();
 			ResultSet fetchResult = x.executeQuery(loginQuery);
