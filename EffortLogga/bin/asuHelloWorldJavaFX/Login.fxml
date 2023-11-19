@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderpane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
+<BorderPane fx:id="borderpane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="223.0" style="-fx-background-color: #282828;">
          <children>
@@ -55,8 +55,8 @@
                   <Font name="Palatino Linotype Bold" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="UsernameTextInput" layoutX="115.0" layoutY="104.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Username" snapToPixel="false" />
-            <TextField fx:id="PasswordTextInput" layoutX="115.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Password" />
+            <TextField fx:id="UsernameTextInput" layoutX="115.0" layoutY="104.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Username" snapToPixel="false" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
+            <TextField fx:id="PasswordTextInput" layoutX="115.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Password" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
             <Button fx:id="LoginButton" layoutX="19.0" layoutY="233.0" mnemonicParsing="false" onAction="#LogInButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Verdana" size="16.0" />

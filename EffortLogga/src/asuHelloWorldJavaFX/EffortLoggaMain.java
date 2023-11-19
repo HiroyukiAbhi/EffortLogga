@@ -21,7 +21,7 @@ public class EffortLoggaMain extends Application {
 			root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene scene = new Scene(root, 520, 400);
 			stage.initStyle(StageStyle.UNDECORATED);
-			stage. setResizable(false);
+			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
