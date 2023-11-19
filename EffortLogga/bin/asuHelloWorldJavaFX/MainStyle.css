@@ -1,0 +1,13 @@
+/* styles.css */
+.root {
+    -fx-background-color: #2c2c2c; /* Background color of the entire stage */
+}
+
+.title-bar {
+    -fx-background-color: #333333; /* Background color of the title bar */
+}
+
+.close-button {
+    -fx-background-color: #ff4444; /* Background color of the close button */
+    -fx-text-fill: white; /* Text color of the close button */
+}
