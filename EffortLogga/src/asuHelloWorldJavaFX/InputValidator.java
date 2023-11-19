@@ -46,6 +46,10 @@ public class InputValidator {
 		// NEW PROTOTYPE REFINEMENT
 
 	}
+	public InputValidator() {
+		returnVal = 20;
+		
+	}
 
 	// Method to checkType
 	public int checkType(Object input) {
@@ -109,7 +113,7 @@ public class InputValidator {
 
 	// Method to check if the object passed in is a effort to inject SQL statements
 	// into the query
-	public boolean injectionCheck(String s) {
+	public static boolean injectionCheck(String s) {
 		// A list of SQL keywords that the object may be inside
 		ArrayList<String> sqlKeywords = new ArrayList<>(Arrays.asList("ADD", "ADD CONSTRAINT", "ALL", "ALTER", "AND", "ANY", "BACKUP", "BETWEEN", "CASE", "CHECK", "COLUMN", "CONSTRAINT", "CREATE", "DATABASE", "DEFAULT",
 				"DELETE", "DESC", "DISTINCT", "DROP", "EXEC", "EXISTS", "FOREIGN KEY", "FROM", "FULL OUTER JOIN",
