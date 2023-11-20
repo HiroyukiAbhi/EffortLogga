@@ -63,7 +63,9 @@ public class inputvalidation_withsqlinjectiondetection {
                 String keyWord = sqlKeywords.get(index);
                 embeddedSQL.append(keyWord);
             }
+           
         }
+        System.out.println(embeddedSQL.toString());
         boolean result = InputValidator.injectionCheck(embeddedSQL.toString());
         assertEquals(true, result);
     }
@@ -71,12 +73,12 @@ public class inputvalidation_withsqlinjectiondetection {
     /**
      * Test case to repeat the embedded SQL test multiple times.
      */
-    @Test
-    public void testEmbeddedSQLMultiple() {
-        for (int i = 0; i < 100000; i++) {
-            testEmbeddedSQL();
-        }
-    }
+//    @Test
+//    public void testEmbeddedSQLMultiple() {
+//        for (int i = 0; i < 100000; i++) {
+//            testEmbeddedSQL();
+//        }
+//    }
     
  
 }

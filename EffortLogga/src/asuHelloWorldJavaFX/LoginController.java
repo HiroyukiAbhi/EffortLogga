@@ -17,7 +17,8 @@ import java.sql.Statement;
 import java.lang.String;
 
 public class LoginController {
-
+	private double xOffset = 0;
+    private double yOffset = 0;
 	private Stage stage;
 	private Scene scene;
 
@@ -62,9 +63,18 @@ public class LoginController {
 	@FXML
 	private void SignUpButtonPressed(ActionEvent e) {
 		// Static desgin of creating a signup window
+		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
 			root = loader.load();
+			root.setOnMousePressed(event -> {
+	            xOffset = event.getSceneX();
+	            yOffset = event.getSceneY();
+	        });
+	        root.setOnMouseDragged(event -> {
+	        	stage.setX(event.getScreenX() - xOffset);
+	        	stage.setY(event.getScreenY() - yOffset);
+	        });
 			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);

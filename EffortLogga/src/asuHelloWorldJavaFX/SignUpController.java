@@ -1,4 +1,5 @@
 package asuHelloWorldJavaFX;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,8 @@ public class SignUpController {
 	private Stage stage;
 	private Scene scene;
 	public Parent root;
-
+	private double xOffset = 0;
+	private double yOffset = 0;
 
 	@FXML
 	Label SignUpMessage;
@@ -33,28 +35,30 @@ public class SignUpController {
 
 	@FXML
 	private void SignUpButtonisPressed(ActionEvent e) {
-		if(Password.isPasswordValid(SignUpPasswordText.getText()))
-		{
+		if (Password.isPasswordValid(SignUpPasswordText.getText())) {
 
 			try {
 				DatabaseConnection connection = new DatabaseConnection();
 				Connection connector = connection.getConnection();
-				String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"+ SignUpUsernameText.getText() + "'";
+				String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '"
+						+ SignUpUsernameText.getText() + "'";
 				Statement x = connector.createStatement();
 				ResultSet fetchResult = x.executeQuery(loginQuery);
-				while(fetchResult.next()) {
+				while (fetchResult.next()) {
 
 					if (fetchResult.getInt(1) == 1) {
 						SignUpMessage.setText("User Already Exists!");
 						SignUpMessage.setOpacity(1);
 
 					} else {
-						String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('" + SignUpUsernameText.getText() + "', '" + Encryption.hashPassword(SignUpPasswordText.getText()) + "', 0);";
+						String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('"
+								+ SignUpUsernameText.getText() + "', '"
+								+ Encryption.hashPassword(SignUpPasswordText.getText()) + "', 0);";
 
 						PreparedStatement preparedStatement = connector.prepareStatement(insert);
-						//fetchResult = x.executeQuery(insert);
+						// fetchResult = x.executeQuery(insert);
 						int rowsAffected = preparedStatement.executeUpdate();
-						if(rowsAffected > 0) {
+						if (rowsAffected > 0) {
 							SignUpMessage.setText("User Created!");
 							SignUpMessage.setOpacity(1);
 							preparedStatement.close();
@@ -64,32 +68,29 @@ public class SignUpController {
 
 				fetchResult.close();
 				connector.close();
-			} catch(Exception e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 
 			}
-		}
-		else
-		{
+		} else {
 			SignUpMessage.setText(Password.getMessage());
 			SignUpMessage.setOpacity(1);
 		}
 
 	}
 
-
 	@FXML
 	private void SignInBackButtonPressed(ActionEvent e) {
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));	
-			root = loader.load();	
-			stage = (Stage)((Node) e.getSource()).getScene().getWindow();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+			root = loader.load();
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
 
-		}catch(Exception signUpException){
+		} catch (Exception signUpException) {
 			signUpException.printStackTrace();
 		}
 

@@ -13,12 +13,23 @@ public class EffortLoggaMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    private double xOffset = 0;
+    private double yOffset = 0;
     
     public void start(Stage stage) {
         
     	Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+			root.setOnMousePressed(event -> {
+	            xOffset = event.getSceneX();
+	            yOffset = event.getSceneY();
+	        });
+	        root.setOnMouseDragged(event -> {
+	        	stage.setX(event.getScreenX() - xOffset);
+	        	stage.setY(event.getScreenY() - yOffset);
+	        });
+	        
 			Scene scene = new Scene(root, 520, 400);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setResizable(false);
