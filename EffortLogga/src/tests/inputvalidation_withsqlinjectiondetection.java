@@ -73,12 +73,12 @@ public class inputvalidation_withsqlinjectiondetection {
     /**
      * Test case to repeat the embedded SQL test multiple times.
      */
-//    @Test
-//    public void testEmbeddedSQLMultiple() {
-//        for (int i = 0; i < 100000; i++) {
-//            testEmbeddedSQL();
-//        }
-//    }
+    @Test
+    public void testEmbeddedSQLMultiple() {
+        for (int i = 0; i < 100000; i++) {
+            testEmbeddedSQL();
+        }
+    }
     
  
 }
