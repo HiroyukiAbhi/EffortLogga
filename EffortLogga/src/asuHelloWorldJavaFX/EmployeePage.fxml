@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="landingpageroot" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1280.0" snapToPixel="false" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.EmployeeLandingPageController">
    <children>
-      <TabPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #3C3C3C;" stylesheets="@application.css" tabClosingPolicy="UNAVAILABLE">
+      <Button fx:id="closebutton" minHeight="-Infinity" mnemonicParsing="false" onAction="#onClose" prefHeight="10.0" prefWidth="52.0" style="-fx-background-color: #FF6B6B;" text="Button">
+         <VBox.margin>
+            <Insets bottom="-10.0" left="1228.0" />
+         </VBox.margin>
+      </Button>
+      <TabPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #3C3C3C;" stylesheets="@application.css" tabClosingPolicy="UNAVAILABLE" tabMinWidth="20.0">
         <tabs>
           <Tab closable="false" style="-fx-background-color: #282828;" text="Welcome!">
                <content>
@@ -25,13 +38,158 @@
                               <Insets left="20.0" />
                            </padding>
                         </Label>
+                        <TableView fx:id="tableView" layoutX="291.0" layoutY="176.0" prefHeight="414.0" prefWidth="676.0">
+                          <columns>
+                            <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
+                            <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
+                              <TableColumn fx:id="c3" prefWidth="75.0" text="C1" />
+                          </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-          <Tab style="-fx-background-color: #282828;" text="Historical Data View">
+          <Tab style="-fx-background-color: #282828;" text="EffortLogger View">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <SplitPane fx:id="splitPane" dividerPositions="0.2914" prefHeight="673.0" prefWidth="1280.0" style="-fx-background-color: #3C3C3C;">
+                    <items>
+                      <AnchorPane prefHeight="160.0" prefWidth="357.0" style="-fx-background-color: #3C3C3C;">
+                           <children>
+                              <ScrollPane hmax="0.0" minViewportHeight="10.0" prefHeight="673.0" prefViewportHeight="10.0" prefWidth="357.0" style="-fx-background-color: #3C3C3C; -fx-border-color: #3C3C3C;">
+                                <content>
+                                  <AnchorPane fx:id="ProjectViewPane" prefHeight="673.0" prefWidth="377.0" style="-fx-background-color: #3C3C3C;">
+                                       <children>
+                                          <TreeView fx:id="treeviewer" layoutY="-7.0" prefHeight="806.0" prefWidth="357.0" style="-fx-background-color: #3C3C3C;" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                        <SplitPane fx:id="task_project_split" dividerPositions="0.9966996699669967" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="673.0" prefWidth="909.0">
+                          <items>
+                            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="673.0" prefWidth="923.0" style="-fx-background-color: #3C3C3C;">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" prefHeight="36.0" prefWidth="277.0" text="Task View" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="41.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="tasknametextfield" editable="false" layoutX="238.0" layoutY="110.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <Label layoutX="15.0" layoutY="108.0" prefHeight="36.0" prefWidth="128.0" text="Task Name" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="190.0" prefHeight="36.0" prefWidth="162.0" text="Life Cycle Step" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="265.0" prefHeight="36.0" prefWidth="162.0" text="EffortCategory" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="345.0" prefHeight="36.0" prefWidth="162.0" text="Deliverable" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="lifecyclesteptextfield" editable="false" layoutX="238.0" layoutY="192.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="effortcategorytextfield" editable="false" layoutX="238.0" layoutY="268.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="deliverabletextfield" editable="false" layoutX="238.0" layoutY="347.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <ScrollPane layoutX="28.0" layoutY="455.0" prefHeight="169.0" prefWidth="420.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="404.0">
+                                             <children>
+                                                <ListView fx:id="userStoryListView" prefHeight="257.0" prefWidth="418.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                    <Label layoutX="32.0" layoutY="413.0" prefHeight="36.0" prefWidth="235.0" text="User Story Points" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="22.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="466.0" layoutY="449.0" prefHeight="36.0" prefWidth="179.0" text="User Story Weight" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="466.0" layoutY="485.0" prefHeight="36.0" prefWidth="179.0" text="User Story" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="userStoryWeightText" editable="false" layoutX="651.0" layoutY="451.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT USER STORY">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextArea fx:id="userStoryText" layoutX="466.0" layoutY="524.0" prefHeight="104.0" prefWidth="411.0" style="-fx-text-fill: black; -fx-background-color: #2c2c2c;" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #3C3C3C;">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" prefHeight="47.0" prefWidth="287.0" text="Project View" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="41.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="93.0" prefHeight="36.0" prefWidth="161.0" text="Project Name:" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="ProjectNameText" editable="false" layoutX="175.0" layoutY="95.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT PROJECT">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <ScrollPane layoutX="14.0" layoutY="204.0" prefHeight="169.0" prefWidth="420.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="404.0">
+                                             <children>
+                                                <ListView fx:id="historicalDataListView" prefHeight="257.0" prefWidth="418.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                    <Label layoutX="14.0" layoutY="168.0" prefHeight="36.0" prefWidth="161.0" text="Historical Data" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="468.0" prefHeight="36.0" prefWidth="258.0" text="Historical Data Content" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea fx:id="historicalDataContext" layoutX="15.0" layoutY="504.0" prefHeight="133.0" prefWidth="824.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                    </items>
+                  </SplitPane>
                </content>
             </Tab>
             <Tab closable="false" style="-fx-background-color: #282828;" text="Planning Poker">
@@ -39,7 +197,15 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                </content>
             </Tab>
+            <Tab text="Defect Console">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
         </tabs>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </TabPane>
    </children>
 </VBox>

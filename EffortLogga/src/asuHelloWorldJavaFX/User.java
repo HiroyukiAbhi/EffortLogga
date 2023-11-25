@@ -12,6 +12,9 @@ public class User {
 		this.userId = userId;
 		this.password = password;
 	}
+	public User(ArrayList<Project> projectList) {
+		this.projectList= projectList;
+	}
 	public String getUserId() {
 		return this.userId;
 	}

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,74 +12,78 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderpane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
-   <left>
-      <AnchorPane prefHeight="400.0" prefWidth="223.0" style="-fx-background-color: #282828;">
-         <children>
-            <Label alignment="CENTER" layoutY="25.0" prefHeight="17.0" prefWidth="228.0" text="EffortLogger" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="Palatino Linotype Bold" size="29.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutY="105.0" prefHeight="17.0" prefWidth="228.0" text="An Agile Effort Estimator" textFill="WHITE">
-               <font>
-                  <Font name="Verdana Italic" size="14.0" />
-               </font>
-            </Label>
-            <Line endX="100.0" layoutX="114.0" layoutY="77.0" startX="-100.0" stroke="#656565" />
-            <ImageView disable="true" fitHeight="122.0" fitWidth="228.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-               <image>
-                  <Image url="@code.png" />
-               </image>
-               <effect>
-                  <Reflection />
-               </effect>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane prefHeight="400.0" prefWidth="332.0" snapToPixel="false" style="-fx-background-color: #3C3C3C;" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" layoutY="27.0" prefHeight="17.0" prefWidth="290.0" text="Login" textFill="WHITE">
-               <font>
-                  <Font name="Palatino Linotype Bold" size="29.0" />
-               </font>
-            </Label>
-            <Label layoutX="20.0" layoutY="104.0" prefHeight="25.0" prefWidth="84.0" text="Username" textFill="WHITE">
-               <font>
-                  <Font name="Palatino Linotype Bold" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="21.0" layoutY="143.0" prefHeight="25.0" prefWidth="82.0" text="Password" textFill="WHITE">
-               <font>
-                  <Font name="Palatino Linotype Bold" size="17.0" />
-               </font>
-            </Label>
-            <TextField fx:id="UsernameTextInput" layoutX="115.0" layoutY="104.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Username" snapToPixel="false" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
-            <TextField fx:id="PasswordTextInput" layoutX="115.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Password" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
-            <Button fx:id="LoginButton" layoutX="19.0" layoutY="233.0" mnemonicParsing="false" onAction="#LogInButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Login" textFill="WHITE">
-               <font>
-                  <Font name="Verdana" size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="SignInButtonID" layoutX="19.0" layoutY="277.0" mnemonicParsing="false" onAction="#SignUpButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Sign-Up" textFill="WHITE">
-               <font>
-                  <Font name="Verdana" size="16.0" />
-               </font>
-            </Button>
-            <Label fx:id="SystemMessage" alignment="CENTER" layoutY="192.0" opacity="0.0" prefHeight="17.0" prefWidth="291.0" text="System Message" textFill="#e86d6d">
-               <font>
-                  <Font name="Verdana Bold" size="11.0" />
-               </font>
-            </Label>
-            <Line endX="100.0" layoutX="145.0" layoutY="76.0" startX="-100.0" stroke="#282525" />
-            <Button fx:id="ExitButton" layoutX="20.0" layoutY="320.0" mnemonicParsing="false" onAction="#exitButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Exit" textFill="WHITE">
-               <font>
-                  <Font name="Verdana" size="16.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-   </right>
+<BorderPane fx:id="borderpane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" styleClass="root" stylesheets="@NewFile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asuHelloWorldJavaFX.LoginController">
+
+	<left>
+		<AnchorPane prefHeight="400.0" prefWidth="223.0" style="-fx-background-color: #282828;">
+			<children>
+				<Label fx:id="EffortLoggerTitle" alignment="CENTER" layoutY="25.0" prefHeight="17.0" prefWidth="228.0" text="EffortLogger" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+					<font>
+						<Font name="Palatino Linotype Bold" size="29.0" />
+					</font>
+				</Label>
+				<Label fx:id="EffortLoggerDescription" alignment="CENTER" layoutY="105.0" prefHeight="17.0" prefWidth="228.0" text="An Agile Effort Estimator" textFill="WHITE">
+					<font>
+						<Font name="Verdana Italic" size="14.0" />
+					</font>
+				</Label>
+				<Line endX="100.0" layoutX="114.0" layoutY="77.0" startX="-100.0" stroke="#656565" />
+				<ImageView disable="true" fitHeight="122.0" fitWidth="228.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+					<image>
+						<Image url="@code.png" />
+					</image>
+					<effect>
+						<Reflection />
+					</effect>
+				</ImageView>
+			</children>
+		</AnchorPane>
+	</left>
+	<right>
+		<AnchorPane prefHeight="400.0" prefWidth="332.0" snapToPixel="false" style="-fx-background-color: #3C3C3C;" BorderPane.alignment="CENTER">
+			<children>
+				<Label alignment="CENTER" layoutY="27.0" prefHeight="17.0" prefWidth="290.0" stylesheets="@NewFile.css" text="Login" textFill="WHITE">
+					<font>
+						<Font name="Palatino Linotype Bold" size="29.0" />
+					</font>
+				</Label>
+				<Label layoutX="20.0" layoutY="104.0" prefHeight="25.0" prefWidth="84.0" text="Username" textFill="WHITE">
+					<font>
+						<Font name="Palatino Linotype Bold" size="17.0" />
+					</font>
+				</Label>
+				<Label layoutX="21.0" layoutY="143.0" prefHeight="25.0" prefWidth="82.0" text="Password" textFill="WHITE">
+					<font>
+						<Font name="Palatino Linotype Bold" size="17.0" />
+					</font>
+				</Label>
+				<TextField fx:id="UsernameTextInput" layoutX="115.0" layoutY="104.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Username" snapToPixel="false" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
+				<TextField fx:id="PasswordTextInput" layoutX="115.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter Password" style="-fx-background-color: #282828; -fx-text-fill: #ffffff;" />
+				<Button fx:id="LoginButton" graphicTextGap="2.0" layoutX="19.0" layoutY="233.0" mnemonicParsing="false" onAction="#LogInButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Login" textFill="WHITE">
+					<font>
+						<Font name="Verdana" size="16.0" />
+					</font>
+					<effect>
+						<Glow level="0.0" />
+					</effect>
+				</Button>
+				<Button fx:id="SignInButtonID" layoutX="19.0" layoutY="277.0" mnemonicParsing="false" onAction="#SignUpButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Sign-Up" textFill="WHITE">
+					<font>
+						<Font name="Verdana" size="16.0" />
+					</font>
+				</Button>
+				<Label fx:id="SystemMessage" alignment="CENTER" layoutY="192.0" opacity="0.0" prefHeight="17.0" prefWidth="291.0" text="System Message" textFill="#e86d6d">
+					<font>
+						<Font name="Verdana Bold" size="11.0" />
+					</font>
+				</Label>
+				<Line endX="100.0" layoutX="145.0" layoutY="76.0" startX="-100.0" stroke="#282525" />
+				<Button fx:id="ExitButton" layoutX="20.0" layoutY="320.0" mnemonicParsing="false" onAction="#exitButtonPressed" prefHeight="34.0" prefWidth="251.0" style="-fx-background-color: #282828;" text="Exit" textFill="WHITE">
+					<font>
+						<Font name="Verdana" size="16.0" />
+					</font>
+				</Button>
+			</children>
+		</AnchorPane>
+	</right>
 </BorderPane>

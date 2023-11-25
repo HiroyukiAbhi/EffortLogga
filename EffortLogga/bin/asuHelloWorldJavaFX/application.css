@@ -1,21 +1,84 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.cdnfonts.com/css/minecraft-4');
+
 .tab-label {
     -fx-text-fill: #ffffff; /* Text color */
-    -fx-font-family: "Verdana"; /* Font family */
+    -fx-font-family:"Minecraft",sans-serif; /* Font family */
     -fx-font-size: 14px; /* Font size */
-    -fx-font-weight: bold; /* Font weight (optional) */
+    
     -fx-alignment: center;
 }
 .tab {
-    -fx-background-color:  #282828; /* Background color of the tab */
-    						 /* Border color of the tab */
+    -fx-background-color:  #282828; /* Background color of the tab */    						 /* Border color of the tab */
     -fx-border-width: 1px; /* Border width of the tab */
     -fx-border-radius: 5px; /* Border radius of the tab corners */
     -fx-min-height: 40px; /* Minimum height of the tab */
     -fx-pref-height: 40px; /* Preferred height of the tab */
     -fx-max-height: 40px;
     -fx-min-width: 100px; /* Minimum width of the tab */
-    -fx-pref-width: 420px; /* Preferred width of the tab */
+    -fx-pref-width: 300px; /* Preferred width of the tab */
     -fx-max-width: 200px;
 }
 .tab-header-background { -fx-background-color:  #3C3C3C; }
+.tree-cell {
+	-fx-text-fill: #ffffff;
+	-fx-padding: 0.75em;
+    /*-fx-padding: 0.75em 0em 0.75em 0em ;*/
+    -fx-background-color:  #282828;
+}
+.tree-cell:sub-tree-item {
+	-fx-text-fill: #ffffff;
+    /*-fx-padding: 0.25em ;*/
+    -fx-background-color:  #3C3C3C;
+}
+.tree-cell:selected {
+    -fx-font-weight: bold ;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.7), 10, 0, 0, 0);
+}
+.split-pane:horizontal > .split-pane-divider {
+   -fx-background-color: #282828;
+}
+.scroll-pane {
+    -fx-background-color: black;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+.list-view {
+    -fx-control-inner-background: #2C2C2C;
+    -fx-control-inner-background-alt:  #3C3C3C;
+    -fx-selection-bar: #4CAF50;
+    -fx-text-fill: white;
+    -fx-selection-bar-non-focused: #4CAF50;
+    -fx-cell-hover-color: derive(-fx-control-inner-background, 20%);
+}
+
+/* Dark mode style for TextArea */
+.text-area {
+    -fx-control-inner-background: #2C2C2C;
+    -fx-text-fill: #ffffff;
+}

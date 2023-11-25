@@ -27,5 +27,9 @@ public class DatabaseConnection {
 		
 		
 	}
+	public void toStringISG() {
+		System.out.println("this was init");
+		
+	}
 
 }

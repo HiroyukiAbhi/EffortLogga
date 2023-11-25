@@ -1,8 +1,12 @@
 package asuHelloWorldJavaFX;
 //FUNCTIONALITY FOR LOGIN PAGE
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +25,11 @@ public class LoginController {
     private double yOffset = 0;
 	private Stage stage;
 	private Scene scene;
-
+	public DatabaseConnection connection;
+	@FXML
+	Label EffortLoggerTitle;
+	@FXML
+	Label EffortLoggerDescription;
 	@FXML
 	private BorderPane borderpane;
 	@FXML
@@ -39,7 +47,13 @@ public class LoginController {
 	private TextField UsernameTextInput;
 	@FXML
 	private TextField PasswordTextInput;
-
+	
+	@FXML
+	public void initialize() {
+     //Add more here for when the window is initialized   
+		
+		connection = new DatabaseConnection();
+    }
 	@FXML
 	private void exitButtonPressed(ActionEvent e) {
 		Stage stage = (Stage) ExitButton.getScene().getWindow();
@@ -49,10 +63,10 @@ public class LoginController {
 
 	@FXML
 	private void LogInButtonPressed(ActionEvent e) {
-
+		
 		if (!UsernameTextInput.getText().isBlank() && !PasswordTextInput.getText().isBlank()) {
-
-			checkCredentials();
+			checkCredentials(e);
+			
 		} else {
 
 			SystemMessage.setText("Empty Field!");
@@ -84,7 +98,8 @@ public class LoginController {
 		}
 	}
 
-	public void checkCredentials() {
+	public void checkCredentials(ActionEvent e) {
+		
 		InputValidator x1 = new InputValidator(PasswordTextInput.getText());
 		String password = PasswordTextInput.getText();
 		String username = UsernameTextInput.getText();
@@ -93,7 +108,7 @@ public class LoginController {
 			SystemMessage.setOpacity(1);
 
 			try {
-				DatabaseConnection connection = new DatabaseConnection();
+				
 				Connection connector = connection.getConnection();
 
 				String loginQuery = "SELECT count(1) FROM userAccounts WHERE username = '" + UsernameTextInput.getText()
@@ -115,6 +130,7 @@ public class LoginController {
 									SystemMessage.setText("Supervisor!");
 								} else {
 									SystemMessage.setText("Employee!");
+									sendToEmployeePage(e);
 								}
 							}
 						} else {
@@ -123,19 +139,46 @@ public class LoginController {
 						}
 					}
 
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 
 				connector.close();
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
 
 		} else {
 			SystemMessage.setText("SQL INJECTION DETECTED! >:O");
 			SystemMessage.setOpacity(1);
+		}
+	}
+	
+	public void sendToEmployeePage(ActionEvent e) {
+		try {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("EmployeePage.fxml"));
+		root = loader.load();
+		EmployeeLandingPageController eController = loader.getController();
+		connection.toStringISG();
+		eController.setConnection(connection);
+		
+		root.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        root.setOnMouseDragged(event -> {
+        	stage.setX(event.getScreenX() - xOffset);
+        	stage.setY(event.getScreenY() - yOffset);
+        });
+        
+		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		
+		}catch(Exception except) {
+			except.printStackTrace();
 		}
 	}
 
