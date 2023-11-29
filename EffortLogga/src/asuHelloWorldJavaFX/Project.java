@@ -6,7 +6,7 @@ import javafx.scene.control.TreeItem;
 
 public class Project {
 	public ArrayList<Task> tasks;
-	public ArrayList<String> historicalData;
+	public ArrayList<HistoricalData> historicalData;
 	public ArrayList<Task> defects;
 	public String projectName;
 	public int projectID;
@@ -16,7 +16,7 @@ public class Project {
 		this.projectID = projectID;
 		this.projectName = projectName;
 		this.tasks = new ArrayList<Task>();
-		this.historicalData = new ArrayList<String>();
+		this.historicalData = new ArrayList<HistoricalData>();
 		this.defects = new ArrayList<Task>();
 		this.projectTreeItem = new TreeItem<>(projectName);
 	}
@@ -25,7 +25,7 @@ public class Project {
 		tasks.add(task);
 	}
 
-	public void addHistoricalData(String historicalData) {
+	public void addHistoricalData(HistoricalData historicalData) {
 		this.historicalData.add(historicalData);
 	}
 

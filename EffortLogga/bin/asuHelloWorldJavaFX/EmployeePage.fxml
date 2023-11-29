@@ -2,14 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
@@ -38,13 +37,6 @@
                               <Insets left="20.0" />
                            </padding>
                         </Label>
-                        <TableView fx:id="tableView" layoutX="291.0" layoutY="176.0" prefHeight="414.0" prefWidth="676.0">
-                          <columns>
-                            <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
-                            <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
-                              <TableColumn fx:id="c3" prefWidth="75.0" text="C1" />
-                          </columns>
-                        </TableView>
                      </children>
                   </AnchorPane>
                </content>
@@ -144,7 +136,25 @@
                                           <Font name="Sitka Heading" size="18.0" />
                                        </font>
                                     </TextField>
-                                    <TextArea fx:id="userStoryText" layoutX="466.0" layoutY="524.0" prefHeight="104.0" prefWidth="411.0" style="-fx-text-fill: black; -fx-background-color: #2c2c2c;" />
+                                    <TextArea fx:id="userStoryText" editable="false" layoutX="466.0" layoutY="524.0" prefHeight="104.0" prefWidth="411.0" promptText="Select a user story">
+                                       <font>
+                                          <Font name="Sitka Text" size="12.0" />
+                                       </font></TextArea>
+                                    <Button fx:id="favoriteUSButton" layoutX="370.0" layoutY="418.0" mnemonicParsing="false" onAction="#onFavButtonPressed" prefHeight="24.0" prefWidth="82.0" style="-fx-background-color: #282828;" text="Favorite" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Text Bold" size="12.0" />
+                                       </font>
+                                    </Button>
+                                    <TextField fx:id="EstimationText" editable="false" layoutX="672.0" layoutY="111.0" prefHeight="33.0" prefWidth="133.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                                       <font>
+                                          <Font name="Sitka Heading" size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <Label layoutX="498.0" layoutY="109.0" prefHeight="36.0" prefWidth="203.0" text="Estimated Effort" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sitka Small Bold" size="17.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #3C3C3C;">
@@ -194,7 +204,10 @@
             </Tab>
             <Tab closable="false" style="-fx-background-color: #282828;" text="Planning Poker">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="comboBox" layoutX="90.0" layoutY="61.0" prefWidth="150.0" promptText="Choose Project" />
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab text="Defect Console">

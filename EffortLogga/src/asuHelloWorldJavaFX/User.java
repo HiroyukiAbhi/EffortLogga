@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class User {
 	public ArrayList<Project> projectList;
+	public ArrayList<UserStory> favoriteUserStories;
 	private String userId;
 	private String password;
 	
@@ -11,9 +12,12 @@ public class User {
 	public User(String userId, String password) {
 		this.userId = userId;
 		this.password = password;
+		this.favoriteUserStories = new ArrayList<>();
+
 	}
 	public User(ArrayList<Project> projectList) {
 		this.projectList= projectList;
+		favoriteUserStories = new ArrayList<>();
 	}
 	public String getUserId() {
 		return this.userId;

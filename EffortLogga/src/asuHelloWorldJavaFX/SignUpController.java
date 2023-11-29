@@ -51,9 +51,7 @@ public class SignUpController {
 						SignUpMessage.setOpacity(1);
 
 					} else {
-						String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('"
-								+ SignUpUsernameText.getText() + "', '"
-								+ Encryption.hashPassword(SignUpPasswordText.getText()) + "', 0);";
+						String insert = "INSERT INTO userAccounts (username, password, roleSpecification)" + "VALUES ('"+ SignUpUsernameText.getText() + "', '"+ Encryption.hashPassword(SignUpPasswordText.getText()) + "', 0);";
 
 						PreparedStatement preparedStatement = connector.prepareStatement(insert);
 						// fetchResult = x.executeQuery(insert);
