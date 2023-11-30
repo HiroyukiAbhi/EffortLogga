@@ -12,6 +12,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -206,7 +208,156 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ComboBox fx:id="comboBox" layoutX="90.0" layoutY="61.0" prefWidth="150.0" promptText="Choose Project" />
+                        <ComboBox fx:id="projectComboBox" layoutX="26.0" layoutY="61.0" prefWidth="150.0" promptText="Choose Project" />
+                        <ComboBox fx:id="taskNameComboBox" layoutX="217.0" layoutY="61.0" prefWidth="150.0" promptText="Choose Task" />
+                        <Label layoutX="26.0" layoutY="123.0" prefHeight="36.0" prefWidth="162.0" text="Life Cycle Step" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="lifecyclesteptextfieldpp" editable="false" layoutX="188.0" layoutY="125.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                           <font>
+                              <Font name="Sitka Heading" size="18.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="26.0" layoutY="200.0" prefHeight="36.0" prefWidth="162.0" text="EffortCategory" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="effortcategorytextfieldpp" editable="false" layoutX="188.0" layoutY="201.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                           <font>
+                              <Font name="Sitka Heading" size="18.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="26.0" layoutY="264.0" prefHeight="36.0" prefWidth="162.0" text="Deliverable" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="deliverabletextfieldpp" editable="false" layoutX="188.0" layoutY="266.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT TASK">
+                           <font>
+                              <Font name="Sitka Heading" size="18.0" />
+                           </font>
+                        </TextField>
+                        <ScrollPane layoutX="14.0" layoutY="428.0" prefHeight="169.0" prefWidth="420.0" style="-fx-background-color: #282828;">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="404.0">
+                                 <children>
+                                    <ListView fx:id="userStoryListView1" prefHeight="257.0" prefWidth="418.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="14.0" layoutY="386.0" prefHeight="36.0" prefWidth="235.0" text="User Story Points" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="452.0" layoutY="392.0" prefHeight="36.0" prefWidth="179.0" text="User Story" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="userStoryText1" editable="false" layoutX="452.0" layoutY="428.0" prefHeight="170.0" prefWidth="379.0" promptText="Select a user story">
+                           <font>
+                              <Font name="Sitka Text" size="12.0" />
+                           </font>
+                        </TextArea>
+                        <Label layoutX="680.0" layoutY="392.0" prefHeight="36.0" prefWidth="82.0" text="Weight:" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="userStoryWeightText1" editable="false" layoutX="768.0" layoutY="394.0" prefHeight="33.0" prefWidth="62.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="SELECT USER STORY">
+                           <font>
+                              <Font name="Sitka Heading" size="18.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="864.0" layoutY="393.0" prefHeight="36.0" prefWidth="179.0" text="Active Users:" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Small Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="userStoryListView11" layoutX="864.0" layoutY="426.0" prefHeight="172.0" prefWidth="387.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+                        <Button fx:id="favoriteUSButton1" layoutX="1121.0" layoutY="14.0" mnemonicParsing="false" onAction="#onFavButtonPressed" prefHeight="24.0" prefWidth="130.0" style="-fx-background-color: #282828;" text="Send Estimate" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Text Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="joinPP" layoutX="1060.0" layoutY="399.0" mnemonicParsing="false" onAction="#onJoinPressed" prefHeight="24.0" prefWidth="191.0" style="-fx-background-color: #282828;" text="Join Planning Poker Session" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Text Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="refreshButton" layoutX="1018.0" layoutY="399.0" mnemonicParsing="false" onAction="#onFavButtonPressed" prefHeight="24.0" prefWidth="31.0" style="-fx-background-color: #282828;" textFill="WHITE">
+                           <font>
+                              <Font name="Sitka Text Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <TextField fx:id="currentEstimate" editable="false" layoutX="911.0" layoutY="10.0" prefHeight="33.0" prefWidth="187.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" text="CURRENT ESTIMATE">
+                           <font>
+                              <Font name="Sitka Heading" size="18.0" />
+                           </font>
+                        </TextField>
+                        <ScrollPane hvalue="1.0" layoutX="475.0" layoutY="48.0" prefHeight="341.0" prefWidth="778.0" style="-fx-background-color: #282828;">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="2151.0" style="-fx-background-color: #282828;">
+                                 <children>
+                                    <ImageView fx:id="ace" fitHeight="289.0" fitWidth="254.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@ACE.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="king" fitHeight="289.0" fitWidth="254.0" layoutX="230.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@KING.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="queen" fitHeight="289.0" fitWidth="254.0" layoutX="442.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@QUEEN.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="jack" fitHeight="289.0" fitWidth="254.0" layoutX="659.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@JACK.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="eight" fitHeight="289.0" fitWidth="254.0" layoutX="874.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@8.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="five" fitHeight="289.0" fitWidth="254.0" layoutX="1087.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@5.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="three" fitHeight="289.0" fitWidth="254.0" layoutX="1305.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="two" fitHeight="289.0" fitWidth="254.0" layoutX="1530.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="one" fitHeight="289.0" fitWidth="254.0" layoutX="1748.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="zero" fitHeight="289.0" fitWidth="254.0" layoutX="1968.0" layoutY="14.0" onMouseClicked="#press" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@0.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
                      </children></AnchorPane>
                </content>
             </Tab>

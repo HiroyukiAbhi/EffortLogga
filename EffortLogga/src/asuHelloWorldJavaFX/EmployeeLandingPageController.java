@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -37,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.lang.String;
 import javafx.scene.input.MouseEvent;
 
@@ -67,9 +69,13 @@ public class EmployeeLandingPageController {
 	@FXML
 	TextField userStoryWeightText;
 	@FXML
+	TextField userStoryWeightText1;
+	@FXML
 	TextField ProjectNameText;
 	@FXML
 	TextArea userStoryText;
+	@FXML
+	TextArea userStoryText1;
 	@FXML
 	TextArea historicalDataContext;
 	@FXML
@@ -80,19 +86,74 @@ public class EmployeeLandingPageController {
 	Button favoriteUSButton;
 	
 	@FXML
-	ComboBox comboBox;
+	ListView<String> userStoryListView1;
+	
+	@FXML
+	ComboBox<String> projectComboBox;
+	
+	@FXML
+	ComboBox<String> taskNameComboBox;
+	
+	@FXML
+	TextField lifecyclesteptextfieldpp;
+	
+	@FXML
+	TextField effortcategorytextfieldpp;
+	
+	@FXML
+	TextField deliverabletextfieldpp;
+	
 	@FXML
 	TextField EstimationText;
+	
+	@FXML
+	ImageView ace;
+	
+	@FXML
+	ImageView king;
+
+	@FXML
+	ImageView queen;
+	
+
+	@FXML
+	ImageView jack;
+	
+
+	@FXML
+	ImageView eight;
+
+	@FXML
+	ImageView five;
+
+	@FXML
+	ImageView three;
+
+	@FXML
+	ImageView two;
+
+	@FXML
+	ImageView one;
+	
+
+	@FXML
+	ImageView zero;
+	
+	@FXML
+	TextField currentEstimate;
+	
 	public Parent root;
 	double xOffset;
 	double yOffset;
 	Stage stage;
-	
+	Task sT;
 	// Application Varaibles
 	public User currentUser;
 	public ArrayList<Project> projectList;
 	public DatabaseConnection connection;
-
+	public HashMap<String, Integer> values;
+	public int storyEstimate;
+	
 	public void initialize() {
 		// Add more here for when the window is initialized
 		// stage = (Stage) ((Node) landingpageroot).getScene().getWindow();
@@ -102,12 +163,98 @@ public class EmployeeLandingPageController {
 		projectList = new ArrayList<Project>();
 		currentUser = new User(projectList);
 		connection = new DatabaseConnection();
-
+		
 		initialDividerSetup();
 		// EffortLogger Historical Data view
 		populateProjects(project);
 		selectionListener(project);
 		
+		//Start of planning Poker Scene Methods
+		initValues();
+		loadPlanningPokerView();
+		
+	}
+	public void loadPlanningPokerView() {
+		for(Project i: projectList) {
+			projectComboBox.getItems().add(i.projectName);
+		}
+		projectComboListener();
+		taskComboListener();
+		userStoryListener();
+		
+	}
+	private void populateUserStories(Task task) {
+		userStoryListView1.getItems().clear();
+		for (UserStory i : task.userStories) {
+			userStoryListView1.getItems().add(i.userStoryName);
+		}
+
+	}
+	private void userStoryListener() {
+
+		// TODO Auto-generated method stub
+		userStoryListView1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			String selectedItemText = userStoryListView1.getSelectionModel().getSelectedItem();
+			if (newValue != null) {
+				// userStoryText.setText(userStoryListView.getSelectionModel().getSelectedItem().userStoryContent);
+				for (UserStory i : sT.userStories) {
+					if (i.userStoryName.equals(selectedItemText)) {
+						userStoryText1.setText(i.userStoryContent);
+						userStoryWeightText1.setText(i.userStoryWeight + "");
+					}
+				}
+			}
+		});
+		
+		
+	}
+	private void taskComboListener() {
+		taskNameComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			
+			Task selectedTask = findTask(findProject(projectList,projectComboBox.getSelectionModel().getSelectedItem()).tasks, newValue);
+			sT= selectedTask;
+			if(selectedTask != null) {
+				lifecyclesteptextfieldpp.setText(selectedTask.lifeCycleStep);
+				effortcategorytextfieldpp.setText(selectedTask.effortCategory);
+				deliverabletextfieldpp.setText(selectedTask.delivarable);
+				populateUserStories(selectedTask);
+			}else {
+				lifecyclesteptextfieldpp.setText("SELECT TASK");
+				effortcategorytextfieldpp.setText("SELECT TASK");
+				deliverabletextfieldpp.setText("SELECT TASK");
+			}
+		});
+
+	}
+	public void projectComboListener() {
+		projectComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			Project selectedProject = findProject(projectList,newValue);
+			taskNameComboBox.getItems().clear();
+			for(Task i: selectedProject.tasks) {
+				taskNameComboBox.getItems().add(i.taskName);
+			}
+			
+		});
+	}
+	public void initValues() {
+		values = new HashMap<>();
+		values.put("zero", 0);
+		values.put("one", 1);
+		values.put("two", 2);
+		values.put("three", 3);
+		values.put("five", 5);
+		values.put("eight", 8);
+		values.put("jack", 13);
+		values.put("queen", 20);
+		values.put("king", 40);
+		values.put("ace", 100);
+	}
+	
+	@FXML
+	public void press(MouseEvent e) {
+		Node source = (Node) e.getSource();
+		storyEstimate = values.get(source.getId());
+		currentEstimate.setText(storyEstimate+"");
 	}
 
 	private void selectionListener(TreeItem<String> project) {
@@ -264,8 +411,7 @@ public class EmployeeLandingPageController {
 				for (int j = 0; j < i; j++) {
 					if (x.getChildren().get(j).getValue().equals(results.getString(2))) { // If project == query project
 
-						Task temp = new Task(results.getString(4), results.getString(5), results.getString(6),
-								results.getString(7));
+						Task temp = new Task(results.getString(4), results.getString(5), results.getString(6),results.getString(7));
 						projectList.get(j).tasks.add(temp);
 						x.getChildren().get(j).getChildren().get(0).getChildren().add(temp.taskTreeItem);
 						j = i;
@@ -275,6 +421,7 @@ public class EmployeeLandingPageController {
 			}
 			fetchUserStories(projectList, connector);
 			fetchHistoricalData(projectList,connector);
+			
 			connector.close();
 			statement.close();
 		} catch (Exception E) {

@@ -33,25 +33,24 @@
     -fx-border-color: #ffffff;
     -fx-border-width: 1;
     -fx-border-radius: 5;
+    -fx-text-fill: #ffffff;
     
-    -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, #ffffff, 5, 0, 0, 0);
 }
-.combo-box .prompt-text {
-    -fx-text-fill: white;
+.combo-box .prompt-text{
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5) ;
+}
+.combo-box .text-field {
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5) ;
 }
 
 /* Dark mode style for the popup of the ComboBox */
-.combo-box-popup {
-    -fx-background-color: #2C2C2C;
-    -fx-border-color: #ffffff;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
-}
+
 
 /* Dark mode style for the list cells in the ComboBox popup */
 .combo-box-popup .list-cell {
     -fx-background-color: #2C2C2C;
+    -fx-border-color: transparent;
     -fx-text-fill: #ffffff;
 }
 
@@ -106,7 +105,18 @@
 }
 
 /* Dark mode style for TextArea */
+.text-area .prompt-text{  -fx-prompt-text-fill: #ffffff;
+}
+
+.image-view:hover{
+	-fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.7), 10, 0, 0, 0);
+}
+.button:hover, .button:hover .text {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.7), 10, 0, 0, 0);
+}
+
 .text-area {
     -fx-control-inner-background: #2C2C2C;
+     -fx-border-color: transparent;
     -fx-text-fill: #ffffff;
 }
