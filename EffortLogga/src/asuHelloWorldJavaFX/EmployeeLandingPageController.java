@@ -30,10 +30,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,6 +45,9 @@ import java.lang.String;
 import javafx.scene.input.MouseEvent;
 
 public class EmployeeLandingPageController {
+	@FXML
+	Label consoleMessage;
+
 	@FXML
 	private VBox landingpageroot;
 	@FXML
@@ -84,41 +89,39 @@ public class EmployeeLandingPageController {
 	ListView<String> historicalDataListView;
 	@FXML
 	Button favoriteUSButton;
-	
+
 	@FXML
 	ListView<String> userStoryListView1;
-	
+
 	@FXML
 	ComboBox<String> projectComboBox;
-	
+
 	@FXML
 	ComboBox<String> taskNameComboBox;
-	
+
 	@FXML
 	TextField lifecyclesteptextfieldpp;
-	
+
 	@FXML
 	TextField effortcategorytextfieldpp;
-	
+
 	@FXML
 	TextField deliverabletextfieldpp;
-	
+
 	@FXML
 	TextField EstimationText;
-	
+
 	@FXML
 	ImageView ace;
-	
+
 	@FXML
 	ImageView king;
 
 	@FXML
 	ImageView queen;
-	
 
 	@FXML
 	ImageView jack;
-	
 
 	@FXML
 	ImageView eight;
@@ -134,55 +137,279 @@ public class EmployeeLandingPageController {
 
 	@FXML
 	ImageView one;
-	
 
 	@FXML
 	ImageView zero;
-	
+
 	@FXML
 	TextField currentEstimate;
+
+	@FXML
+	ListView<String> activeUsers;
 	
 	public Parent root;
 	double xOffset;
 	double yOffset;
 	Stage stage;
 	Task sT;
+	String taskID;
 	// Application Varaibles
 	public User currentUser;
 	public ArrayList<Project> projectList;
 	public DatabaseConnection connection;
 	public HashMap<String, Integer> values;
 	public int storyEstimate;
-	
+	public String username, password;
+	boolean joinPPSession;
+
 	public void initialize() {
 		// Add more here for when the window is initialized
 		// stage = (Stage) ((Node) landingpageroot).getScene().getWindow();
-
+		storyEstimate = -1;
+		joinPPSession = false;
 		TreeItem<String> project = new TreeItem<>("Projects");
 		treeviewer.setRoot(project);
 		projectList = new ArrayList<Project>();
 		currentUser = new User(projectList);
+
 		connection = new DatabaseConnection();
-		
+
 		initialDividerSetup();
 		// EffortLogger Historical Data view
 		populateProjects(project);
 		selectionListener(project);
-		
-		//Start of planning Poker Scene Methods
+
+		// Start of planning Poker Scene Methods
 		initValues();
 		loadPlanningPokerView();
-		
+		SystemListener();
 	}
+
+	@FXML
+	public void onRefreshPressed(ActionEvent e) {
+		activeUsers();
+	}
+	
+	public void activeUsers() {
+		if (sT != null) {
+			try {
+				activeUsers.getItems().clear();
+				String query = "SELECT * FROM CurrentPlayers WHERE taskID = '" + findTaskID(sT) + "'";
+				Connection connector = connection.getConnection();
+
+				Statement x = connector.createStatement();
+				ResultSet r = x.executeQuery(query);
+				while (r.next()) {
+					activeUsers.getItems().add("USER "+ r.getInt(2));
+				}
+				r.close();
+				x.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+	}
+
+	@FXML
+	public void onSendEstimate(ActionEvent e) {
+		if (joinPPSession) {
+
+			findUID(this.username);
+
+			if (findTaskID(sT) != null && this.currentUser.userId != null && this.storyEstimate >= 0
+					&& this.userStoryListView1.getSelectionModel().getSelectedItem() != null) {
+				try {
+					UserStory SUS = findUS();
+					String q = "INSERT INTO PlanningPokerLog (taskID, employeeID, effortEstimation, userStoryID) VALUES ("
+							+ this.taskID + "," + this.currentUser.userId + "," + this.storyEstimate + ", " + SUS.usID
+							+ ")";
+					Connection connector = connection.getConnection();
+
+					PreparedStatement x = connector.prepareStatement(q);
+					x.executeUpdate();
+					x.close();
+					connector.close();
+					consoleMessage.setTextFill(Color.WHITE);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (findTaskID(sT) == null) {
+
+				consoleMessage.setTextFill(Color.RED);
+				consoleMessage.setText("Task NOT FOUND!");
+			} else if (this.currentUser.userId == null) {
+
+				consoleMessage.setTextFill(Color.RED);
+				consoleMessage.setText("USER NOT FOUND!");
+			} else if (this.storyEstimate >= 0) {
+
+				consoleMessage.setTextFill(Color.RED);
+				consoleMessage.setText("PICK A CARD!");
+			} else if (this.userStoryListView1.getSelectionModel().getSelectedItem() == null) {
+
+				consoleMessage.setTextFill(Color.RED);
+				consoleMessage.setText("SELECT A USER STORY!");
+			}
+		} else {
+			consoleMessage.setTextFill(Color.RED);
+			consoleMessage.setText("Join a Planning Poker session!");
+		}
+	}
+
+	public UserStory findUS() {
+		if (sT != null && this.userStoryListView1.getSelectionModel().getSelectedItem() != null) {
+			for (UserStory i : sT.userStories) {
+				if (i.userStoryName.equals(this.userStoryListView1.getSelectionModel().getSelectedItem())) {
+					return i;
+				}
+			}
+		}
+		consoleMessage.setTextFill(Color.RED);
+		;
+		consoleMessage.setText("Cannot Find User Story");
+		return null;
+
+	}
+
+	@FXML
+	public void onExitButtonPressed(ActionEvent e) {
+		exitSession();
+
+	}
+
+	public void SystemListener() {
+		consoleMessage.textFillProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.equals(Color.RED)) {
+				consoleMessage.setOpacity(1);
+				System.out.println("Label text fill color is RED.");
+			} else if (newValue.equals(Color.WHITE)) {
+				consoleMessage.setOpacity(0);
+				System.out.println("Label text fill color is WHITE.");
+			} else {
+				System.out.println("Label text fill color is neither RED nor WHITE.");
+			}
+		});
+	}
+
+	public void exitSession() {
+		if (joinPPSession) {
+			try {
+				findUID(this.username);
+				String q = "DELETE FROM CurrentPlayers WHERE playerID = " + this.currentUser.userId + "";
+				Connection connector = connection.getConnection();
+
+				PreparedStatement x;
+
+				x = connector.prepareStatement(q);
+
+				x.executeUpdate();
+				x.close();
+				connector.close();
+				joinPPSession = false;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		} else {
+			consoleMessage.setTextFill(Color.RED);
+			consoleMessage.setText("DID NOT JOIN A Planning Poker Session yet!");
+		}
+	}
+
+	@FXML
+	public void onJoinPressed(ActionEvent e) {
+		if (sT != null && this.userStoryListView1.getSelectionModel().getSelectedItem() != null) {
+			findUID(this.username);
+			taskID = findTaskID(sT);
+			joinSession(taskID);
+			joinPPSession = true;
+			consoleMessage.setTextFill(Color.WHITE);
+		} else {
+			consoleMessage.setTextFill(Color.RED);
+			consoleMessage.setText("SELECT A  USER STORY!");
+			System.out.println("SELECT A  TASK");
+		}
+
+	}
+
+	private String findTaskID(Task task) {
+		String id = "";
+		try {
+			String query = "SELECT * FROM tasks_data WHERE taskName = '" + task.taskName + "'";
+			Connection connector = connection.getConnection();
+
+			Statement x = connector.createStatement();
+			ResultSet r = x.executeQuery(query);
+			while (r.next()) {
+				id = r.getInt(1) + "";
+			}
+			r.close();
+			x.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		this.taskID = id;
+		return id;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String joinSession(String taskid) {
+		try {
+			String q = "INSERT INTO CurrentPlayers (playerID, taskID) VALUES (" + this.currentUser.userId + "," + taskid
+					+ ")";
+			Connection connector = connection.getConnection();
+
+			PreparedStatement x = connector.prepareStatement(q);
+			x.executeUpdate();
+			x.close();
+			connector.close();
+			activeUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void findUID(String username) {
+		try {
+			String query = "SELECT * FROM userAccounts WHERE username = '" + username + "'";
+			Connection connector = connection.getConnection();
+
+			Statement x = connector.createStatement();
+			ResultSet r = x.executeQuery(query);
+			while (r.next()) {
+				this.currentUser.userId = r.getInt(1) + "";
+			}
+			r.close();
+			x.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public void loadPlanningPokerView() {
-		for(Project i: projectList) {
+		for (Project i : projectList) {
 			projectComboBox.getItems().add(i.projectName);
 		}
 		projectComboListener();
 		taskComboListener();
 		userStoryListener();
-		
+
 	}
+
 	private void populateUserStories(Task task) {
 		userStoryListView1.getItems().clear();
 		for (UserStory i : task.userStories) {
@@ -190,6 +417,7 @@ public class EmployeeLandingPageController {
 		}
 
 	}
+
 	private void userStoryListener() {
 
 		// TODO Auto-generated method stub
@@ -205,20 +433,21 @@ public class EmployeeLandingPageController {
 				}
 			}
 		});
-		
-		
+
 	}
+
 	private void taskComboListener() {
 		taskNameComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			
-			Task selectedTask = findTask(findProject(projectList,projectComboBox.getSelectionModel().getSelectedItem()).tasks, newValue);
-			sT= selectedTask;
-			if(selectedTask != null) {
+
+			Task selectedTask = findTask(
+					findProject(projectList, projectComboBox.getSelectionModel().getSelectedItem()).tasks, newValue);
+			sT = selectedTask;
+			if (selectedTask != null) {
 				lifecyclesteptextfieldpp.setText(selectedTask.lifeCycleStep);
 				effortcategorytextfieldpp.setText(selectedTask.effortCategory);
 				deliverabletextfieldpp.setText(selectedTask.delivarable);
 				populateUserStories(selectedTask);
-			}else {
+			} else {
 				lifecyclesteptextfieldpp.setText("SELECT TASK");
 				effortcategorytextfieldpp.setText("SELECT TASK");
 				deliverabletextfieldpp.setText("SELECT TASK");
@@ -226,16 +455,18 @@ public class EmployeeLandingPageController {
 		});
 
 	}
+
 	public void projectComboListener() {
 		projectComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			Project selectedProject = findProject(projectList,newValue);
+			Project selectedProject = findProject(projectList, newValue);
 			taskNameComboBox.getItems().clear();
-			for(Task i: selectedProject.tasks) {
+			for (Task i : selectedProject.tasks) {
 				taskNameComboBox.getItems().add(i.taskName);
 			}
-			
+
 		});
 	}
+
 	public void initValues() {
 		values = new HashMap<>();
 		values.put("zero", 0);
@@ -249,12 +480,12 @@ public class EmployeeLandingPageController {
 		values.put("king", 40);
 		values.put("ace", 100);
 	}
-	
+
 	@FXML
 	public void press(MouseEvent e) {
 		Node source = (Node) e.getSource();
 		storyEstimate = values.get(source.getId());
-		currentEstimate.setText(storyEstimate+"");
+		currentEstimate.setText(storyEstimate + "");
 	}
 
 	private void selectionListener(TreeItem<String> project) {
@@ -263,11 +494,13 @@ public class EmployeeLandingPageController {
 			treeviewer.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 				if (!treeviewer.getSelectionModel().getSelectedItem().equals(project)) {
 
-					if (newValue != null && treeviewer.getSelectionModel().getSelectedItem().getParent().getValue().equals("Projects")) {
+					if (newValue != null && treeviewer.getSelectionModel().getSelectedItem().getParent().getValue()
+							.equals("Projects")) {
 						showProjectView(treeviewer.getSelectionModel().getSelectedItem().getValue());
-						
+
 						divider1.setPosition(0.0033);
-					} else if (newValue != null && treeviewer.getSelectionModel().getSelectedItem().getParent().getValue().equals("Tasks")) {
+					} else if (newValue != null && treeviewer.getSelectionModel().getSelectedItem().getParent()
+							.getValue().equals("Tasks")) {
 						userStoryText.clear();
 						userStoryWeightText.clear();
 						divider1.setPosition(0.9967);
@@ -293,21 +526,21 @@ public class EmployeeLandingPageController {
 		effortcategorytextfield.setText(selectedTask.effortCategory);
 		deliverabletextfield.setText(selectedTask.delivarable);
 		showUserStories(selectedTask);
-		//Populate task effort estimation
+		// Populate task effort estimation
 		double estimation = 0;
 		double weightSum = 0;
-		
+
 		if (selectedTask.userStories != null) {
 			for (UserStory i : selectedTask.userStories) {
-				estimation += (i.userStoryEstimation)*(i.userStoryWeight);
+				estimation += (i.userStoryEstimation) * (i.userStoryWeight);
 				weightSum += i.userStoryWeight;
 			}
-			estimation = estimation/weightSum;
+			estimation = estimation / weightSum;
 			EstimationText.setText(estimation + "");
-			
-		}else {
+
+		} else {
 			EstimationText.setText("N/A");
-			
+
 		}
 
 	}
@@ -364,25 +597,25 @@ public class EmployeeLandingPageController {
 		// TODO Auto-generated method stub
 		ProjectNameText.setText(projectName);
 		historicalDataListView.getItems().clear();
-		Project selection = findProject(projectList,projectName);
-		for(HistoricalData i: selection.historicalData) {
+		Project selection = findProject(projectList, projectName);
+		for (HistoricalData i : selection.historicalData) {
 			historicalDataListView.getItems().add(i.historicalDataName);
 		}
-		historicalDataListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			String selectedItemText = historicalDataListView.getSelectionModel().getSelectedItem();
-			if (newValue != null) {
-				// userStoryText.setText(userStoryListView.getSelectionModel().getSelectedItem().userStoryContent);
-				for (HistoricalData i : selection.historicalData) {
-					if (i.historicalDataName.equals(selectedItemText)) {
-						historicalDataContext.setText(i.historicalDataContent);
-						System.out.println(i.historicalDataContent);
-						
+		historicalDataListView.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> {
+					String selectedItemText = historicalDataListView.getSelectionModel().getSelectedItem();
+					if (newValue != null) {
+						// userStoryText.setText(userStoryListView.getSelectionModel().getSelectedItem().userStoryContent);
+						for (HistoricalData i : selection.historicalData) {
+							if (i.historicalDataName.equals(selectedItemText)) {
+								historicalDataContext.setText(i.historicalDataContent);
+								System.out.println(i.historicalDataContent);
+
+							}
+						}
 					}
-				}
-			}
-		});
-		
-		
+				});
+
 	}
 
 	// Populates project tree view with the current projects in the database
@@ -411,7 +644,8 @@ public class EmployeeLandingPageController {
 				for (int j = 0; j < i; j++) {
 					if (x.getChildren().get(j).getValue().equals(results.getString(2))) { // If project == query project
 
-						Task temp = new Task(results.getString(4), results.getString(5), results.getString(6),results.getString(7));
+						Task temp = new Task(results.getString(4), results.getString(5), results.getString(6),
+								results.getString(7));
 						projectList.get(j).tasks.add(temp);
 						x.getChildren().get(j).getChildren().get(0).getChildren().add(temp.taskTreeItem);
 						j = i;
@@ -420,8 +654,8 @@ public class EmployeeLandingPageController {
 				}
 			}
 			fetchUserStories(projectList, connector);
-			fetchHistoricalData(projectList,connector);
-			
+			fetchHistoricalData(projectList, connector);
+
 			connector.close();
 			statement.close();
 		} catch (Exception E) {
@@ -432,37 +666,32 @@ public class EmployeeLandingPageController {
 
 	private void fetchHistoricalData(ArrayList<Project> projectList2, Connection connector) {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			String fetchHD = "SELECT projectname, hdName, hdContent FROM projects INNER JOIN historicalD ON projects.projectsid = historicalD.pID";
 			Statement statement = connector.createStatement();
 			ResultSet results = statement.executeQuery(fetchHD);
 			while (results.next()) {
 				for (int i = 0; i < projectList.size(); i++) {
-					
-						if (projectList.get(i).projectName.equals(results.getString(1))) {
-							projectList.get(i).historicalData.add(new HistoricalData(results.getString(2),results.getString(3)));
-						}
-					
+
+					if (projectList.get(i).projectName.equals(results.getString(1))) {
+						projectList.get(i).historicalData
+								.add(new HistoricalData(results.getString(2), results.getString(3)));
+					}
 
 				}
 			}
-		
-		
-		
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	
-		
-	
+
 	}
 
 	private void fetchUserStories(ArrayList<Project> projectList, Connection connector) {
 
-		String fetchUS = "SELECT idtask, taskName, storypoint_name,storypoint_content,storypoint_weight,storypoint_estimation FROM tasks_data INNER JOIN user_storypoints ON tasks_data.idtask = user_storypoints.taskID";
+		String fetchUS = "SELECT idtask, taskName, storypoint_name,storypoint_content,storypoint_weight,storypoint_estimation,iduser_storypoints FROM tasks_data INNER JOIN user_storypoints ON tasks_data.idtask = user_storypoints.taskID";
 		try {
 			Statement statement = connector.createStatement();
 			ResultSet results = statement.executeQuery(fetchUS);
@@ -470,8 +699,8 @@ public class EmployeeLandingPageController {
 				for (int i = 0; i < projectList.size(); i++) {
 					for (int j = 0; j < projectList.get(i).tasks.size(); j++) {
 						if (projectList.get(i).tasks.get(j).taskName.equals(results.getString(2))) {
-							projectList.get(i).tasks.get(j).userStories
-									.add(new UserStory(results.getString(3), results.getString(4), results.getInt(5), results.getInt(6)));
+							projectList.get(i).tasks.get(j).userStories.add(new UserStory(results.getString(3),
+									results.getString(4), results.getInt(5), results.getInt(6), results.getInt(7)));
 						}
 					}
 
@@ -501,21 +730,23 @@ public class EmployeeLandingPageController {
 			}
 		});
 	}
+
 	public void onFavButtonPressed(ActionEvent e) {
 		String selectedItemText = userStoryListView.getSelectionModel().getSelectedItem();
 		TreeItem<String> task = treeviewer.getSelectionModel().getSelectedItem();
 		TreeItem<String> project = treeviewer.getSelectionModel().getSelectedItem().getParent().getParent();
-		Task selection = findTask(findProject(projectList, project.getValue()).tasks,task.getValue());
-		for(UserStory i:selection.userStories) {
-			if(i.userStoryName.equals(selectedItemText) && !currentUser.favoriteUserStories.contains(i)) {
+		Task selection = findTask(findProject(projectList, project.getValue()).tasks, task.getValue());
+		for (UserStory i : selection.userStories) {
+			if (i.userStoryName.equals(selectedItemText) && !currentUser.favoriteUserStories.contains(i)) {
 				currentUser.favoriteUserStories.add(i);
 				System.out.println("FAVORITED: " + i.userStoryName);
-			}else {
+			} else {
 				System.out.println("NOT FAVORITED: " + i.userStoryName);
 			}
 		}
-		
+
 	}
+
 	// CUSTOMIZED UI SETTINGS -- DRAG TAB -- CLOSE BUTTON -- ADD MORE UI FEATURES
 	// UNDER THIS COMMENT IF NEEDED
 	@FXML
@@ -532,6 +763,7 @@ public class EmployeeLandingPageController {
 
 	@FXML
 	public void onClose(ActionEvent event) {
+		exitSession();
 		Stage stage = (Stage) closebutton.getScene().getWindow();
 		stage.close();
 	}

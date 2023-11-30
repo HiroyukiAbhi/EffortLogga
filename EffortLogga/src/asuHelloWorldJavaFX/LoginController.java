@@ -48,6 +48,9 @@ public class LoginController {
 	@FXML
 	private TextField PasswordTextInput;
 	
+	
+	public String username,password;
+	
 	@FXML
 	public void initialize() {
      //Add more here for when the window is initialized   
@@ -121,8 +124,7 @@ public class LoginController {
 					while (fetchResult.next()) {
 						if (fetchResult.getInt(1) == 1) {
 							SystemMessage.setOpacity(1);
-							String roleQuery = "SELECT roleSpecification FROM userAccounts WHERE username = '"
-									+ UsernameTextInput.getText() + "'";
+							String roleQuery = "SELECT roleSpecification FROM userAccounts WHERE username = '"+ UsernameTextInput.getText() + "'";
 							fetchResult.close();
 							fetchResult = x.executeQuery(roleQuery);
 							while (fetchResult.next()) {
@@ -130,6 +132,9 @@ public class LoginController {
 									SystemMessage.setText("Supervisor!");
 								} else {
 									SystemMessage.setText("Employee!");
+									System.out.println(UsernameTextInput.getText());
+									this.username = UsernameTextInput.getText();
+									this.password = PasswordTextInput.getText();
 									sendToEmployeePage(e);
 								}
 							}
@@ -160,8 +165,11 @@ public class LoginController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("EmployeePage.fxml"));
 		root = loader.load();
 		EmployeeLandingPageController eController = loader.getController();
+		
+		eController.setUsername(this.username);
+		
 		connection.toStringISG();
-		eController.setConnection(connection);
+		//eController.setConnection(connection);
 		
 		root.setOnMousePressed(event -> {
             xOffset = event.getSceneX();

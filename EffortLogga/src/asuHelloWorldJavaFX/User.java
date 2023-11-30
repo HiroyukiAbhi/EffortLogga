@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class User {
 	public ArrayList<Project> projectList;
 	public ArrayList<UserStory> favoriteUserStories;
-	private String userId;
-	private String password;
+	public String userId;
+	public String password;
 	
 	
 	public User(String userId, String password) {
