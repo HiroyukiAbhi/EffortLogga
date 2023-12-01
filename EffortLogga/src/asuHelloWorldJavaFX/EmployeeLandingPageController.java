@@ -167,27 +167,45 @@ public class EmployeeLandingPageController {
 	boolean joinPPSession;
 
 	public void initialize() {
-		// Add more here for when the window is initialized
-		// stage = (Stage) ((Node) landingpageroot).getScene().getWindow();
-		storyEstimate = -1;
-		joinPPSession = false;
-		TreeItem<String> project = new TreeItem<>("Projects");
-		treeviewer.setRoot(project);
-		projectList = new ArrayList<Project>();
-		currentUser = new User(projectList);
+	    // Add more here for when the window is initialized
+	    
+	    // Initializing variables for story estimation and session participation
+	    storyEstimate = -1;
+	    joinPPSession = false;
+	    
+	    // Creating a root node for the project tree view
+	    TreeItem<String> project = new TreeItem<>("Projects");
+	    treeviewer.setRoot(project);
+	    
+	    // Initializing a list to store project information
+	    projectList = new ArrayList<Project>();
+	    
+	    // Creating a user object with the project list
+	    currentUser = new User(projectList);
 
-		connection = new DatabaseConnection();
+	    // Establishing a connection to the database
+	    connection = new DatabaseConnection();
 
-		initialDividerSetup();
-		// EffortLogger Historical Data view
-		populateProjects(project);
-		selectionListener(project);
+	    // Setting up the initial divider configuration
+	    initialDividerSetup();
+	    
+	    // Populating the project tree view with project data
+	    // and setting up a selection listener for handling project selection
+	    populateProjects(project);
+	    selectionListener(project);
 
-		// Start of planning Poker Scene Methods
-		initValues();
-		loadPlanningPokerView();
-		SystemListener();
+	    // Start of planning poker scene methods
+	    
+	    // Initializing values for planning poker session
+	    initValues();
+	    
+	    // Loading the Planning Poker view
+	    loadPlanningPokerView();
+	    
+	    // Setting up system listener for additional functionality
+	    SystemListener();
 	}
+
 
 	public void getUserStoryEffortEstimation(UserStory currentUserStory) {
 		try {
