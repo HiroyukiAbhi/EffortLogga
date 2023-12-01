@@ -89,7 +89,10 @@ public class EmployeeLandingPageController {
 	ListView<String> historicalDataListView;
 	@FXML
 	Button favoriteUSButton;
-
+	
+	@FXML
+	TextField userStoryEstimate;
+	
 	@FXML
 	ListView<String> userStoryListView1;
 
@@ -146,7 +149,8 @@ public class EmployeeLandingPageController {
 
 	@FXML
 	ListView<String> activeUsers;
-	
+	@FXML
+
 	public Parent root;
 	double xOffset;
 	double yOffset;
@@ -185,11 +189,35 @@ public class EmployeeLandingPageController {
 		SystemListener();
 	}
 
+	public void getUserStoryEffortEstimation(UserStory currentUserStory) {
+		try {
+			
+			
+			String query = "SELECT * FROM PlanningPokerLog WHERE userStoryID = '" + currentUserStory.usID + "'";
+			Connection connector = connection.getConnection();
+
+			Statement x = connector.createStatement();
+			ResultSet r = x.executeQuery(query);
+			int estimation = 0;
+			while (r.next()) {
+				if(r.getInt(4) > estimation) {
+					estimation =(r.getInt(4));
+				}
+			}
+			currentUserStory.userStoryEstimation = estimation;
+			r.close();
+			x.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@FXML
 	public void onRefreshPressed(ActionEvent e) {
 		activeUsers();
 	}
-	
+
 	public void activeUsers() {
 		if (sT != null) {
 			try {
@@ -200,7 +228,7 @@ public class EmployeeLandingPageController {
 				Statement x = connector.createStatement();
 				ResultSet r = x.executeQuery(query);
 				while (r.next()) {
-					activeUsers.getItems().add("USER "+ r.getInt(2));
+					activeUsers.getItems().add("USER " + r.getInt(2));
 				}
 				r.close();
 				x.close();
@@ -529,7 +557,9 @@ public class EmployeeLandingPageController {
 		// Populate task effort estimation
 		double estimation = 0;
 		double weightSum = 0;
-
+		for(UserStory i: selectedTask.userStories) {
+			getUserStoryEffortEstimation(i);
+		}
 		if (selectedTask.userStories != null) {
 			for (UserStory i : selectedTask.userStories) {
 				estimation += (i.userStoryEstimation) * (i.userStoryWeight);
@@ -548,6 +578,8 @@ public class EmployeeLandingPageController {
 	private void showUserStories(Task selectedTask) {
 		// TODO Auto-generated method stub
 		userStoryListView.getItems().clear();
+		userStoryEstimate.setText("Select User Story");
+		userStoryWeightText.setText("Select User Story");
 		for (UserStory i : selectedTask.userStories) {
 			userStoryListView.getItems().add(i.userStoryName);
 		}
@@ -560,6 +592,7 @@ public class EmployeeLandingPageController {
 					if (i.userStoryName.equals(selectedItemText)) {
 						userStoryText.setText(i.userStoryContent);
 						userStoryWeightText.setText(i.userStoryWeight + "");
+						userStoryEstimate.setText(i.userStoryEstimation+"");
 					}
 				}
 			}
@@ -767,4 +800,5 @@ public class EmployeeLandingPageController {
 		Stage stage = (Stage) closebutton.getScene().getWindow();
 		stage.close();
 	}
+
 }
